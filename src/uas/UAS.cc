@@ -947,6 +947,9 @@ void UAS::setExternalControlSetpoint(float roll, float pitch, float yaw, float t
 
 void UAS::setManual6DOFControlCommands(float forward, float lat, float thrust, float roll, float pitch, float yaw, quint16 buttons, int joystickMode)
 {
+    //supressed unused error
+    if(joystickMode){}
+
     if (!_vehicle) {
         return;
     }
