@@ -228,7 +228,7 @@ deploy:
   # deploy installers to Github releases if on a tag
   - provider: releases
     edge: true # Use V2 provider to work around V1 bug
-    api-key:${botKey} 
+    api-key: ${botKey} 
     file_glob: true
     file:
       - ${SHADOW_BUILD_DIR}/release/package/qgroundcontrol.*
