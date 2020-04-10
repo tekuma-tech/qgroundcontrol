@@ -59,6 +59,8 @@ android:
 
 addons:
   apt:
+    sources:
+    - sourceline: 'ppa:beineri/opt-qt571-xenial'
     packages:
     - speech-dispatcher
     - libgstreamer-plugins-base1.0-dev
