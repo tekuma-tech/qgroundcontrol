@@ -645,14 +645,18 @@ void Joystick::_handleAxis()
             /*temp for geto fix*/
             float   lat = 0;
             float   forward = 0;
-            float   gain = 1.25-_activeVehicle->getFactGroup("APMSubInfo")->getFact("pilot gain")->rawValue().toDouble()/100;
+            float   gain = 0;
+
+            if(_activeVehicle->getFactGroup("APMSubInfo") != nullptr){
+                    gain = 1.25f -_activeVehicle->getFactGroup("APMSubInfo")->getFact("pilot gain")->rawValue().toDouble()/100;
+            }
             if(this->name().contains("Tekuma")){
-                roll = std::max(-1.0f, std::min(((float)_rgAxisValues[5]/(32767*gain)),1.0f))*400+1500;
-                pitch = std::max(-1.0f, std::min(((float)_rgAxisValues[3]/(32767*gain)),1.0f))*400+1500;
-                yaw = std::max(-1.0f, std::min(((float)_rgAxisValues[4]/(32767*gain)),1.0f))*400+1500;
-                throttle = std::max(-1.0f, std::min(((float)_rgAxisValues[1]/(32767*gain)),1.0f))*400+1500;
-                lat = std::max(-1.0f, std::min(((float)_rgAxisValues[0]/(32767*gain)),1.0f))*400+1500;
-                forward = std::max(-1.0f, std::min(((float)_rgAxisValues[2]/(32767*gain)),1.0f))*400+1500;
+                roll = std::max(-1.0f, std::min(((float)_rgAxisValues[5]/(32767*gain*1.5f)),1.0f))*400+1500;
+                pitch = std::max(-1.0f, std::min(((float)_rgAxisValues[3]/(32767*gain*1.5f)),1.0f))*400+1500;
+                yaw = std::max(-1.0f, std::min(((float)_rgAxisValues[4]/(32767*gain*1.5f)),1.0f))*400+1500;
+                throttle = std::max(-1.0f, std::min(((float)_rgAxisValues[1]/(32767*gain*1.5f)),1.0f))*400+1500;
+                lat = std::max(-1.0f, std::min(((float)_rgAxisValues[0]/(32767*gain*1.5f)),1.0f))*400+1500;
+                forward = std::max(-1.0f, std::min(((float)_rgAxisValues[2]/(32767*gain*1.5f)),1.0f))*400+1500;
             }
 
             /*end of the jank*/
