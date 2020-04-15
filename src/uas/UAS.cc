@@ -970,12 +970,12 @@ void UAS::setManual6DOFControlCommands(float forward, float lat, float thrust, f
        _vehicle->priorityLink()->mavlinkChannel(),
        &message2,
        static_cast<uint8_t>(this->uasId),
-       INT16_MAX,
-       INT16_MAX,
-       INT16_MAX,
-       INT16_MAX,
+       1500,
+       1500,
+       1500,
+       1500,
        buttons);
-  _vehicle->sendMessageOnLink(_vehicle->priorityLink(), message2);
+
 
     mavlink_message_t message;
 
@@ -983,7 +983,7 @@ void UAS::setManual6DOFControlCommands(float forward, float lat, float thrust, f
                                                            mavlink->getComponentId(),
                                                            _vehicle->priorityLink()->mavlinkChannel(),
                                                            &message,
-                                                           this->uasId,
+                                                           static_cast<uint8_t>(this->uasId),
                                                            MAV_COMP_ID_ALL,
                                                            newPitchCommand,newRollCommand,newThrustCommand,newYawCommand,newForwardCommand,newLatCommand,
                                                            UINT16_MAX/*Camera Pan*/,
@@ -998,8 +998,10 @@ void UAS::setManual6DOFControlCommands(float forward, float lat, float thrust, f
                                                            UINT16_MAX,
                                                            UINT16_MAX,
                                                            UINT16_MAX);
-
-     _vehicle->sendMessageOnLink(_vehicle->priorityLink(), message);
+    //message.len = MAVLINK_MSG_ID_RC_CHANNELS_OVERRIDE_LEN;
+   // qDebug() << mavlink_get_proto_version(_vehicle->priorityLink()->mavlinkChannel());
+     _vehicle->sendMessageOnLink(_vehicle->priorityLink(), message2);//send JS
+     _vehicle->sendMessageOnLink(_vehicle->priorityLink(), message);//send RC override
 
 
     //The code bellow makes me sad
