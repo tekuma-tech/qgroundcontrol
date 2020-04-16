@@ -666,7 +666,7 @@ void Joystick::_handleAxis()
             if(_activeVehicle && _axisCount > 4 && _gimbalEnabled) {
                 //-- TODO: There is nothing consuming this as there are no messages to handle gimbal
                 //   the way MANUAL_CONTROL handles the other channels.
-                emit manualControlGimbal((gimbalPitch + 1.0f) / 2.0f * 90.0f, gimbalYaw * 180.0f);
+                //emit manualControlGimbal((gimbalPitch + 1.0f) / 2.0f * 90.0f, gimbalYaw * 180.0f);
             }
         }
     }
@@ -710,7 +710,7 @@ void Joystick::startPolling(Vehicle* vehicle)
                 connect(this, &Joystick::manualControlTekuma, uas, &UAS::setManual6DOFControlCommands);
             }
             else{
-                connect(this, &Joystick::manualControl, uas, &UAS::setExternalControlSetpoint);
+                //connect(this, &Joystick::manualControl, uas, &UAS::setExternalControlSetpoint);
             }
             connect(this, &Joystick::setArmed,           _activeVehicle, &Vehicle::setArmed);
             connect(this, &Joystick::setVtolInFwdFlight, _activeVehicle, &Vehicle::setVtolInFwdFlight);
