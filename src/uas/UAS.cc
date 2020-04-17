@@ -121,7 +121,6 @@ UAS::UAS(MAVLinkProtocol* protocol, Vehicle* vehicle, FirmwarePluginManager * fi
     _vehicle(vehicle),
     _firmwarePluginManager(firmwarePluginManager)
 {
-
 #ifndef __mobile__
     connect(_vehicle, &Vehicle::mavlinkMessageReceived, &fileManager, &FileManager::receiveMessage);
 #endif
@@ -846,20 +845,20 @@ void UAS::setExternalControlSetpoint(float roll, float pitch, float yaw, float t
             this->uasId,
             0,
             MAV_FRAME_LOCAL_NED,
-            typeMask,
-            px,
-            py,
-            pz,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            yaw,
-            0);
-    } else if (joystickMode == Vehicle::JoystickModeForce) {
-        // Send the the force setpoint (local pos sp external message)
+                    typeMask,
+                    px,
+                    py,
+                    pz,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    yaw,
+                    0);
+            } else if (joystickMode == Vehicle::JoystickModeForce) {
+                // Send the the force setpoint (local pos sp external message)
         float dcm[3][3];
         mavlink_euler_to_dcm(roll, pitch, yaw, dcm);
         const float fx = -dcm[0][2] * thrust;
@@ -945,6 +944,7 @@ void UAS::setExternalControlSetpoint(float roll, float pitch, float yaw, float t
     _vehicle->sendMessageOnLink(_vehicle->priorityLink(), message);
 }
 
+
 void UAS::setManual6DOFControlCommands(float forward, float lat, float thrust, float roll, float pitch, float yaw, quint16 buttons, int joystickMode)
 {
     //supressed unused error
@@ -970,10 +970,10 @@ void UAS::setManual6DOFControlCommands(float forward, float lat, float thrust, f
        _vehicle->priorityLink()->mavlinkChannel(),
        &message2,
        static_cast<uint8_t>(this->uasId),
-       1500,
-       1500,
-       1500,
-       1500,
+       0,
+       0,
+       500,
+       0,
        buttons);
 
 
@@ -1000,7 +1000,13 @@ void UAS::setManual6DOFControlCommands(float forward, float lat, float thrust, f
                                                            UINT16_MAX);
     //message.len = MAVLINK_MSG_ID_RC_CHANNELS_OVERRIDE_LEN;
    // qDebug() << mavlink_get_proto_version(_vehicle->priorityLink()->mavlinkChannel());
-     _vehicle->sendMessageOnLink(_vehicle->priorityLink(), message2);//send JS
+
+    //only send joystick packet when a button state is changed!
+     //if(this->pastButtons != buttons){
+        _vehicle->sendMessageOnLink(_vehicle->priorityLink(), message2);//send JS
+     //   this->pastButtons = buttons;
+     //}
+
      _vehicle->sendMessageOnLink(_vehicle->priorityLink(), message);//send RC override
 
 
