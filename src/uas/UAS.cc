@@ -1001,13 +1001,8 @@ void UAS::setManual6DOFControlCommands(float forward, float lat, float thrust, f
     //message.len = MAVLINK_MSG_ID_RC_CHANNELS_OVERRIDE_LEN;
    // qDebug() << mavlink_get_proto_version(_vehicle->priorityLink()->mavlinkChannel());
 
-    //only send joystick packet when a button state is changed!
-     //if(this->pastButtons != buttons){
-        _vehicle->sendMessageOnLink(_vehicle->priorityLink(), message2);//send JS
-     //   this->pastButtons = buttons;
-     //}
-
-     _vehicle->sendMessageOnLink(_vehicle->priorityLink(), message);//send RC override
+    _vehicle->sendMessageOnLink(_vehicle->priorityLink(), message2);//send JS
+    _vehicle->sendMessageOnLink(_vehicle->priorityLink(), message);//send RC override
 
 
     //The code bellow makes me sad
