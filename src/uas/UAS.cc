@@ -970,8 +970,8 @@ void UAS::setManual6DOFControlCommands(float forward, float lat, float thrust, f
        _vehicle->priorityLink()->mavlinkChannel(),
        &message2,
        static_cast<uint8_t>(this->uasId),
-       pitch,
-       roll,
+       forward,
+       lat,
        thrust,
        yaw,
        buttons);
