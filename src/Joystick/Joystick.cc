@@ -559,7 +559,6 @@ void Joystick::_handleButtons()
                 buttonPressedBits |= buttonBit;
             }
         }
-        uint16_t shortButtons = static_cast<uint16_t>(buttonPressedBits & 0xFFFF);
         //emit manualControl(1500, 1500, 1500, 1500, shortButtons, _activeVehicle->joystickMode());
     }
     //end of change
