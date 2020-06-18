@@ -3,7 +3,6 @@ version: '{branch}-{build}'
 image: Visual Studio 2017
 
 build:
-  verbosity: minimal
 
 environment:
   matrix:
