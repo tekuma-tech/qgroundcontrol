@@ -38,7 +38,7 @@ LinuxBuild {
     #- gstreamer installed by default under c:/gstreamer
     GST_ROOT = $$(GSTREAMER_1_0_ROOT_X86_64)#-c:/gstreamer/1.0/x86_64
     isEmpty(GST_ROOT){
-        GST_ROOT = c:/gstreamer/1.0/x86_64;
+        GST_ROOT = C:/gstreamer/1.0/x86_64;
     }
     message("Looking for gstreamer at" $$GST_ROOT)
     exists($$GST_ROOT) {
