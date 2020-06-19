@@ -40,6 +40,7 @@ LinuxBuild {
     isEmpty(GST_ROOT){
         GST_ROOT = c:/gstreamer/1.0/x86_64;
     }
+    message("Looking for gstreamer at" $$GST_ROOT)
     exists($$GST_ROOT) {
         CONFIG      += VideoEnabled
 
