@@ -19,6 +19,8 @@
 
 #include <QSettings>
 
+#define sixDOFOverride TRUE
+
 QGC_LOGGING_CATEGORY(JoystickLog,       "JoystickLog")
 QGC_LOGGING_CATEGORY(JoystickValuesLog, "JoystickValuesLog")
 
@@ -550,7 +552,7 @@ void Joystick::_handleButtons()
         }
     }
     //changed
-    if(this->name().contains("Tekuma")){
+    if(this->name().contains("Tekuma") || this->name().contains("ROV") || sixDOFOverride){
         quint64 buttonPressedBits = 0;  // Buttons pressed for manualControl signal
         for (int buttonIndex = 0; buttonIndex < _totalButtonCount; buttonIndex++) {
             quint64 buttonBit = static_cast<quint64>(1LL << buttonIndex);
@@ -662,7 +664,7 @@ void Joystick::_handleAxis()
             if(_activeVehicle->getFactGroup("APMSubInfo") != nullptr){
                     gain = 1.25f -_activeVehicle->getFactGroup("APMSubInfo")->getFact("pilot gain")->rawValue().toDouble()/100;
             }
-            if(this->name().contains("Tekuma")){
+            if(this->name().contains("Tekuma") || this->name().contains("ROV") || sixDOFOverride){
                 roll = std::max(-1.0f, std::min(((float)_rgAxisValues[5]/(32767*gain*1.5f)),1.0f))*400+1500;
                 pitch = std::max(-1.0f, std::min(((float)_rgAxisValues[3]/(32767*gain*1.5f)),1.0f))*400+1500;
                 yaw = std::max(-1.0f, std::min(((float)_rgAxisValues[4]/(32767*gain*1.5f)),1.0f))*400+1500;
@@ -694,7 +696,7 @@ void Joystick::startPolling(Vehicle* vehicle)
         if (_activeVehicle) {
             UAS* uas = _activeVehicle->uas();
 
-            if(this->name().contains("Tekuma")){
+            if(this->name().contains("Tekuma") || this->name().contains("ROV") || sixDOFOverride){
                 disconnect(this, &Joystick::manualControlTekuma, uas, &UAS::setManual6DOFControlCommands);
             }
             disconnect(this, &Joystick::manualControl, uas, &UAS::setExternalControlSetpoint);
@@ -720,7 +722,7 @@ void Joystick::startPolling(Vehicle* vehicle)
         if (vehicle->joystickEnabled()) {
             _pollingStartedForCalibration = false;
             UAS* uas = _activeVehicle->uas();
-            if(this->name().contains("Tekuma")){
+            if(this->name().contains("Tekuma") || this->name().contains("ROV") || sixDOFOverride){
                 connect(this, &Joystick::manualControlTekuma, uas, &UAS::setManual6DOFControlCommands);
             }
             connect(this, &Joystick::manualControl, uas, &UAS::setExternalControlSetpoint);
